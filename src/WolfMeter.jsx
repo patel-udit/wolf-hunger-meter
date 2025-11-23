@@ -6,6 +6,7 @@ const CPH_GOAL = 1250;
 const API_URL = process.env.REACT_APP_CPH_API_URL || "http://localhost:4000/api/cph";
 const API_KEY = process.env.REACT_APP_CPH_API_KEY || "";
 
+
 function WolfMeter({ mode, demoCPH }) {
   const [liveCPH, setLiveCPH] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,32 +18,33 @@ function WolfMeter({ mode, demoCPH }) {
     let cancelled = false;
 
     async function fetchCPH() {
-      try {
-        setIsLoading(true);
+        try {
+            setIsLoading(true);
 
-        const res = await fetch(API_URL, {
-          headers: API_KEY ? { "x-api-key": API_KEY } : {},
-        });
+            const res = await fetch(API_URL, {
+                headers: API_KEY ? { "x-api-key": API_KEY } : {},
+            });
 
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        const data = await res.json();
-        if (!cancelled) setLiveCPH(Number(data.cph || 0));
-      } catch (err) {
-        if (!cancelled) setApiError("Could not load live data.");
-      } finally {
-        if (!cancelled) setIsLoading(false);
-      }
+            const data = await res.json();
+            if (!cancelled) setLiveCPH(Number(data.cph || 0));
+        } catch (err) {
+            if (!cancelled) setApiError("Could not load live data.");
+        } finally {
+            if (!cancelled) setIsLoading(false);
+        }
     }
 
     fetchCPH();
-    const interval = setInterval(fetchCPH, 15000);
+    const interval = setInterval(fetchCPH, 5000); // 👈 Auto-refresh every 5s
 
     return () => {
-      cancelled = true;
-      clearInterval(interval);
+        cancelled = true;
+        clearInterval(interval);
     };
-  }, [mode]);
+}, [mode]);
+
 
   const currentCPH = mode === "demo" ? demoCPH : liveCPH ?? 0;
 
