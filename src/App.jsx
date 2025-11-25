@@ -1,6 +1,8 @@
 import { useState } from "react";
 import WolfMeter from "./WolfMeter";
 import "./styles.css";
+import wbw2Logo from "./assets/wbw2-logo.jpg";
+
 
 function App() {
   const [mode, setMode] = useState("demo");
@@ -51,20 +53,24 @@ function App() {
                 onChange={(e) => setDemoCPH(Number(e.target.value))}
               />
             </div>
-            
+
           )}
-          
+
         </div>
 
-        <WolfMeter mode={mode} demoCPH={demoCPH} />
+        <div className="wolf-container-outer">
+          <WolfMeter mode={mode} demoCPH={demoCPH} />
+        </div>
       </div>
-      <div className="amazon-watermark">
-  <img
-    src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
-    alt="Amazon Logo"
-  />
-</div>
-
+      {/* <div className="amazon-watermark">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
+            alt="Amazon Logo"
+          />
+      </div> */}
+      <div className="site-watermark">
+        <img src={wbw2Logo} alt="WBW2 Logo" />
+      </div>
     </>
   );
 }
